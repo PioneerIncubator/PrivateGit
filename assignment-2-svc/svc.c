@@ -10,8 +10,38 @@ void cleanup(void *helper) {
 }
 
 int hash_file(void *helper, char *file_path) {
-    // TODO: Implement
-    return 0;
+    if (file_path == NULL) {
+        return -1;
+    }
+    if (access(file_path, 0) == -1 && access(file_path, 4)) {
+        // check for file existence and read permission
+        return -2;
+    }
+
+    char *file_contents = NULL;
+    FILE *fp = NULL;
+    fp = fopen(file_path, "r");
+    if (fp == NULL){
+        return -2;
+    }
+
+    fseek(fp, 0, SEEK_END);
+    int file_length = ftell(fp);
+    file_contents = (char*)malloc((file_length + 1) * sizeof(char));
+    rewind(fp);
+    file_length = fread(file_contents, 1, file_length, fp);
+    file_contents[file_length] = '\0';
+    fclose(fp);
+
+    int hash = 0;
+    for (int i = 0; i < strlen(file_path); i++) {
+        hash = (hash + file_path[i]) % 1000;
+    }
+    for (int i = 0; i < file_length; i++){
+        hash = (hash + file_contents[i]) % 2000000000;
+    }
+
+    return hash;
 }
 
 char *svc_commit(void *helper, char *message) {

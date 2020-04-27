@@ -2,6 +2,9 @@
 #define svc_h
 
 #include <stdlib.h>
+#include <stdio.h>
+#include <io.h>
+#include <malloc.h>
 
 typedef struct resolution {
     // NOTE: DO NOT MODIFY THIS STRUCT

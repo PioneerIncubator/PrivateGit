@@ -2,14 +2,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+typedef struct node* nodep;
+struct node{
+	char* file_path;
+	int hash;
+	int commitid;
+	char* file_message;
+	size_t file_length;
+};
 void *svc_init(void) {
     // TODO: Implement
-    void* helper;
-    return NULL;
+    void* helper = malloc(sizeof(struct node));
+    return helper;
 }
 
 void cleanup(void *helper) {
     // TODO: Implement
+    free(helper);
 }
 
 int hash_file(void *helper, char *file_path) {
@@ -26,7 +35,7 @@ int hash_file(void *helper, char *file_path) {
     if( (fp = fopen(file_path,"r")) != NULL)
 	{
   	 fseek(fp,0,SEEK_END);
-    	 long file_length = ftell(fp);
+    	 size_t file_length = ftell(fp);
     	 file_contents = (char*)malloc((file_length + 1) * sizeof(char));
 	 rewind(fp);
    	 file_length = fread(file_contents, 1, file_length, fp);
@@ -49,7 +58,27 @@ int hash_file(void *helper, char *file_path) {
 
 char *svc_commit(void *helper, char *message) {
     // TODO: Implement
-    return NULL;
+    if (message == NULL)
+    	return NULL; 
+    //if no change
+    	int flag = 0;
+	size_t i;
+	for(i = 0;i < (helper->file_length);i++)
+	{
+		if(message[i]!=(helper->file_message[i])
+		{
+			flag = 1;
+			break;
+		}
+	}
+	if(flag ==1)
+	{
+	 int id = 0;
+
+	 for(i=0;i< sizeof(message);i++)
+	   id = (id+message[i]) % 1000;
+
+
 }
 
 void *get_commit(void *helper, char *commit_id) {

@@ -77,11 +77,14 @@ int svc_add(void *helper, char *file_name)
 {
 	if(file_name ==NULL)
 		return -1;
-	//如果已被记录则返回-2；
+	//如果在当前分支已被记录则返回-2；
+	if(file_name == helper->file_name)
+		return -2;
 	if(access(file_name,F_OK)==-1)
 		return -3;
 	
-	//否则将该文件添加到SVCX系统中。返回哈希值
+	//否则将该文件添加到SVC系统中。返回哈希值
+	
 	return hash_file(helper,file_name);
 }
 

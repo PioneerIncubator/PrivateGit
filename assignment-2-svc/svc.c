@@ -61,24 +61,6 @@ char *svc_commit(void *helper, char *message) {
     if (message == NULL)
     	return NULL; 
     //if no change
-    	int flag = 0;
-	size_t i;
-	for(i = 0;i < (helper->file_length);i++)
-	{
-		if(message[i]!=(helper->file_message[i])
-		{
-			flag = 1;
-			break;
-		}
-	}
-	if(flag ==1)
-	{
-	 int id = 0;
-
-	 for(i=0;i< sizeof(message);i++)
-	   id = (id+message[i]) % 1000;
-
-
 }
 
 void *get_commit(void *helper, char *commit_id) {

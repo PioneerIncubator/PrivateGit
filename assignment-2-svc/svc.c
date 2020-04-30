@@ -3,7 +3,7 @@
 
 
 void *svc_init(void) {
-    initSVCDir();
+    init_svc_dir();
     void *helper = malloc(sizeof(struct helper));
     return helper;
 }
@@ -161,5 +161,6 @@ struct blob create_blob(void *helper, char *file_path) {
 
 
 int main(){
+    svc_init();
     return 0;
 }

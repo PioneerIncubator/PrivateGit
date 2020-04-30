@@ -1,6 +1,9 @@
 #ifndef svc_h
 #define svc_h
 
+#include "object.h"
+#include "cache.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <io.h>
@@ -17,6 +20,11 @@ typedef struct resolution {
     char *file_name;
     char *resolved_file;
 } resolution;
+
+struct helper {
+    struct cache **cache_array;
+    struct object *object;
+};
 
 void *svc_init(void);
 

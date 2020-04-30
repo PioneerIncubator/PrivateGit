@@ -11,7 +11,6 @@
 #else
         #include <sys/io.h>
 #endif
-
 enum ErrorNumber {
     FILE_PATH_ERROR = -1,       // file_path is NULL
     FILE_EXIST_ERROR = -2,      // no file exists
@@ -27,7 +26,7 @@ typedef struct resolution {
 
 struct helper {
     int cache_num;
-    struct cache **cache_array;
+    struct cache cache_array[100];
     struct object *object;
 };
 

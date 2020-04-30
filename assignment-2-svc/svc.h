@@ -6,6 +6,12 @@
 #include <io.h>
 #include <malloc.h>
 
+enum ErrorNumber {
+    FILE_PATH_ERROR = -1,  // file_path is NULL
+    FILE_EXIST_ERROR = -2, // no file exists
+    FILE_OPEN_ERROR = -3,  // file can't open
+};
+
 typedef struct resolution {
     // NOTE: DO NOT MODIFY THIS STRUCT
     char *file_name;

@@ -10,9 +10,10 @@
 #include <malloc.h>
 
 enum ErrorNumber {
-    FILE_PATH_ERROR = -1,  // file_path is NULL
-    FILE_EXIST_ERROR = -2, // no file exists
-    FILE_OPEN_ERROR = -3,  // file can't open
+    FILE_PATH_ERROR = -1,       // file_path is NULL
+    FILE_EXIST_ERROR = -2,      // no file exists
+    FILE_OPEN_ERROR = -3,       // file can't open
+    ALREADY_TRACKED_ERROR = -4, // file is already being tracked
 };
 
 typedef struct resolution {
@@ -22,6 +23,7 @@ typedef struct resolution {
 } resolution;
 
 struct helper {
+    int cache_num;
     struct cache **cache_array;
     struct object *object;
 };

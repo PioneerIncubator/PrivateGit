@@ -42,4 +42,6 @@ struct commit {
     char *changelog;
 };
 
+struct blob create_blob (void *helper, char* file_path);
+
 #endif //OBJECT_H

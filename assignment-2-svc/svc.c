@@ -87,8 +87,46 @@ char **list_branches(void *helper, int *n_branches) {
 }
 
 int svc_add(void *helper, char *file_name) {
-    // TODO: Implement
-    return 0;
+    int hash_value = hash_file(helper, file_name);
+    if (hash_value < 0) {
+        printf("ERROR: hash_file error in svc_add");
+        return hash_value;
+    }
+    struct helper *tmp_helper = (struct helper *) helper;
+
+    struct cache *new_cache = (struct cache *) malloc(sizeof(struct cache));
+    char *buffer = (char*)malloc(strlen(file_name) * sizeof(char));
+    strcpy(buffer, file_name);
+    new_cache->name = buffer;
+
+    if (tmp_helper->cache_num == 0) {
+        tmp_helper->cache_num++;
+        tmp_helper->cache_array = malloc(tmp_helper->cache_num * sizeof(struct cache));
+        tmp_helper->cache_array[0] = new_cache;
+    } else if (tmp_helper->cache_num == 1){
+        int cmp = strcmp(tmp_helper->cache_array[0]->name, new_cache->name);
+        if (cmp == 0) {
+            tmp_helper->cache_array = realloc(tmp_helper->cache_array, tmp_helper->cache_num * (sizeof(struct cache) + 1));
+            tmp_helper->cache_array[1] = new_cache;
+        }
+    } else {
+        int i = 1;
+        for (; i < tmp_helper->cache_num; i++) {
+            int prev_cmp = strcmp(tmp_helper->cache_array[i - 1]->name, new_cache->name);
+            int cur_cmp = strcmp(tmp_helper->cache_array[i]->name, new_cache->name);
+            if (prev_cmp == 0) {
+                break;
+            }
+            if (prev_cmp < 0 && cur_cmp > 0) {
+                break;
+            }
+        }
+        tmp_helper->cache_array = realloc(tmp_helper->cache_array, tmp_helper->cache_num * (sizeof(struct cache) + 1));
+        memmove(tmp_helper->cache_array[i + 1], tmp_helper->cache_array[i], (tmp_helper->cache_num - i + 1) * sizeof(struct cache));
+        tmp_helper->cache_array[i] = new_cache;
+    }
+
+    return hash_value;
 }
 
 int svc_rm(void *helper, char *file_name) {
@@ -104,5 +142,17 @@ int svc_reset(void *helper, char *commit_id) {
 char *svc_merge(void *helper, char *branch_name, struct resolution *resolutions, int n_resolutions) {
     // TODO: Implement
     return NULL;
+}
+
+struct blob create_blob(void *helper, char *file_path) {
+    struct blob b;
+    int hash_value = hash_file(helper, file_path);
+    if (hash_value < 0) {
+        printf("ERROR: get hash_value error, ErrorNumber is %d", hash_value);
+        return b;
+    }
+    b.file_path = (char *) malloc(strlen(file_path) * sizeof(char));
+    b.hash_value = hash_value;
+    return b;
 }
 

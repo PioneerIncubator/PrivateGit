@@ -6,8 +6,11 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <io.h>
-#include <malloc.h>
+#ifdef __APPLE__
+        #include <sys/uio.h>
+#else
+        #include <sys/io.h>
+#endif
 
 enum ErrorNumber {
     FILE_PATH_ERROR = -1,       // file_path is NULL

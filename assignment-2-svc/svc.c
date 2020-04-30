@@ -1,8 +1,8 @@
 #include "svc.h"
 
 void *svc_init(void) {
-    // TODO: Implement
-    return NULL;
+    void *helper = malloc(sizeof(struct helper));
+    return helper;
 }
 
 void cleanup(void *helper) {

@@ -2,9 +2,8 @@
 #define OBJECT_H
 
 struct object {
-    int hash_value;
-    char *commit_id[10];
     const char *type; // blob/tree/commit
+    void *util;
     struct object *next;
 };
 
@@ -30,15 +29,17 @@ struct tree_entry_list {
 };
 
 struct tree {
-    struct object object;
     struct tree_entry_list *entries;
 };
 
 struct commit {
-    struct object object;
     struct commit *parents;
     struct tree *tree;
-    char *buffer;
+
+    char *commit_id[10];
+    char *author;
+    char *committer;
+    char *changelog;
 };
 
 #endif //OBJECT_H
